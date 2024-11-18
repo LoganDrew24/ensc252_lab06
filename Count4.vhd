@@ -17,7 +17,7 @@ architecture behaviour of Count4 is
 
 signal XOR_out : std_logic_vector(3 downto 0);
 signal Q_F : std_logic_vector(3 downto 0); --out put of each flipflop used for feeding the 'and' gates
-signal AND_out : std_logic_vector(3 dogfghwnto 0);
+signal AND_out : std_logic_vector(3 downto 0);
 
 begin
 --logic for first and gate and first xor gate
