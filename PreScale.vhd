@@ -5,7 +5,7 @@ USE ieee.std_logic_1164.all;
 
 entity PreScale is
 	port (clock_in : in std_logic;--declare ports for clock in and out
-			clock_out : out std_logic;
+			clock_out : out std_logic
 			);
 end PreScale;
 
