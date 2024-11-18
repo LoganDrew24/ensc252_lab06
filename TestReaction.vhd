@@ -39,6 +39,7 @@ signal and1, mux, enable, clock, q1, w, reset: std_logic; --single mux, and, res
 signal bcd0, bcd1 : std_logic_vector(3 downto 0); --decoder input
 signal hex0, hex1 : std_logic_vector(6 downto 0); --decoder output
 
+begin
 --mux
 mux <= '1' when (w = '1')
 	else q1;
@@ -48,8 +49,29 @@ and1 <= mux and not KEY(0);
 
 --flipflop
 process(clock)
+begin
+	if(rising_edge(clock)) then
+		q1 <= and1;
+	else
+		q1 <= q1;
+	end if
+end process;
 
+LEDR(0) <= not q1;
 
+--need instances of segdecoder, prescale, and BCDCount2
+inst1 : PreScale
+port map (clock_in => CLOCK_50, clock_out => clock);
+		
+inst2 : BCDCount2
+port map (clear => reset, enable => q1, BCD0 => bcd0, BCD1 => bcd1, clock => clock);
 
+inst3 : SegDecoder
+port map (D => bcd0, Y => HEX0);
 
+inst4 : SegDecoder
+port map (D => bcd1, Y => HEX1);
 
+w <= SW(0);
+reset <= SW(1);
+end behaviour;
